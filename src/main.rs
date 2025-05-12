@@ -120,5 +120,18 @@ fn main() {
         }
     };
 
-    println!("{}", final_commit_message)
+    match std::process::Command::new("sh")
+        .arg("-c")
+        .arg(&final_commit_message)
+        .status()
+    {
+        Ok(status) => {
+            if !status.success() {
+                println!("Failed to execute git commit command");
+            }
+        }
+        Err(err) => {
+            println!("Failed to execute command: {}", err);
+        }
+    }
 }
