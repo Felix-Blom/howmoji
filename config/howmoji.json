@@ -1,0 +1,20 @@
+{
+  "gitmojis": [
+    {
+      "emoji": "😎",
+      "entity": "&#x1f60e;",
+      "code": ":sunglasses:",
+      "description": "Vibecode with some vibes",
+      "name": "sunglasses",
+      "semver": null
+    },
+    {
+      "emoji": "🌊",
+      "entity": "&#x1f30a;",
+      "code": ":ocean:",
+      "description": "Flowcode with some flow",
+      "name": "ocean",
+      "semver": null
+    }
+  ]
+}
