@@ -4,7 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-clap = { version = "4.5.38", features = ["derive"] }
-inquire = "0.7.5"
-serde = "1.0.219"
-serde_json = "1.0.140"
+clap = { version = "4.4", features = ["derive"] }
+inquire = "0.6"
+rusqlite = "0.29"
+serde_json = "1.0"
+toml = "0.8"
+log = "0.4"
+env_logger = "0.10"
+dirs = "6.0.0"
