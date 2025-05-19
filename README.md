@@ -1,0 +1,47 @@
+# Howmoji
+[![Rust](https://img.shields.io/badge/Rust-1.83.0-orange?logo=rust&style=flat-square)](https://www.rust-lang.org)
+[![version](https://img.shields.io/badge/😎&#32;&#32;Version&#32;😎&#32;-0.1.0-blue?style=flat-square)](https://github.com/felix/howmoji)
+<a href="https://gitmoji.dev">
+  <img
+    src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square"
+    alt="Gitmoji"
+  />
+</a>
+> [!CAUTION]  
+> `howmoji` is satire. We highly recommend checking out [gitmoji](https://gitmoji.dev/).
+> Many thanks to [gitmoji](https://github.com/carloscuesta/gitmoji) and the awesome [carloscuesta](https://github.com/carloscuesta) for inspiring this fun take on commit emojis!
+
+## Setup
+### Installation
+Since we are still in `alpha`. The only way to install is using cargo
+
+```bash
+cargo install --path .
+```
+
+### Usage
+To start `howmoji` in the cli use the following command:
+
+```bash
+howmoji -c
+```
+
+## Why howmoji?
+This project started after a rejected gitmoji PR on [gitmoji](https://github.com/carloscuesta/gitmoji/issues/1901), in which I wanted the vibecoding emoji 😎, to indicate I was vibecoding.
+
+[Carloscuesta's](https://github.com/carloscuesta) response was thoughtful, friendly, and totally made sense :
+
+
+> [!NOTE]
+>Hey! 👋🏼
+>This falls into the "how" category and we don't want to add emojis for that as the focus should be in the contents of the commit not how it was made.
+>
+>We decided not to remove those emojis but we're not adding new ones that do not fall into the "what"
+>
+>Thanks!
+>
+> ~ carloscuesta
+
+----
+
+However ✨, I still wanted to express my coding vibes! 🎮 Hence, howmoji - where "how" matters more than "what" 🌟. Because sometimes you're not just fixing bugs, you're vibing with your code 😎.
