@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   ci:
     name: ✅ Run CI
@@ -16,17 +19,20 @@ jobs:
     needs: ci
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
+      release_id: ${{ steps.create_release.outputs.id }}
     steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
     - name: 🎉 Create Release
       id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v1
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ github.ref_name }}
+        name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
+        generate_release_notes: true
 
   build-release:
     name: 🏗️ Build Release
@@ -39,6 +45,8 @@ jobs:
           - target: x86_64-pc-windows-msvc
             os: windows-latest
           - target: x86_64-apple-darwin
+            os: macos-latest
+          - target: aarch64-apple-darwin
             os: macos-latest
     runs-on: ${{ matrix.os }}
     steps:
@@ -53,12 +61,19 @@ jobs:
     - name: 🔨 Build release binary
       run: cargo build --release --target ${{ matrix.target }}
     
+    - name: 📦 Prepare binary
+      shell: bash
+      run: |
+        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+          mv target/${{ matrix.target }}/release/howmoji.exe howmoji-${{ matrix.target }}.exe
+        else
+          mv target/${{ matrix.target }}/release/howmoji howmoji-${{ matrix.target }}
+          chmod +x howmoji-${{ matrix.target }}
+        fi
+    
     - name: 📤 Upload Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v1
       with:
-        upload_url: ${{ needs.create-release.outputs.upload_url }}
-        asset_path: ./target/${{ matrix.target }}/release/howmoji${{ matrix.os == 'windows-latest' && '.exe' || '' }}
-        asset_name: howmoji-${{ matrix.target }}${{ matrix.os == 'windows-latest' && '.exe' || '' }}
-        asset_content_type: application/octet-stream
+        tag_name: ${{ github.ref_name }}
+        files: |
+          howmoji-${{ matrix.target }}${{ matrix.os == 'windows-latest' && '.exe' || '' }}
