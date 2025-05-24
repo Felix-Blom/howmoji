@@ -116,7 +116,7 @@ impl<'config> Database<'config> {
         debug!("Inserting version into the database.");
         self.conn.execute(
             "INSERT INTO version (version) VALUES (?1)",
-            &[&self.config.app_version],
+            [&self.config.app_version],
         )?;
         Ok(())
     }

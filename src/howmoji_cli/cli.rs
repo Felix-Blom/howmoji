@@ -200,9 +200,7 @@ fn interactive_mode(howmojis: Vec<Howmoji>) {
             // If user cancels, we don't need to do anything
             match err {
                 inquire::InquireError::OperationCanceled
-                | inquire::InquireError::OperationInterrupted => {
-                    return;
-                }
+                | inquire::InquireError::OperationInterrupted => {}
                 _ => {
                     error!("Error getting description input: {}", err);
                     eprintln!("Something unexpected occurred: {}", err);
@@ -218,14 +216,10 @@ fn create_commit_with_args(emoji: &str, title: &str, description: Option<&str>) 
             "Creating commit with emoji: {}, title: {}, and description",
             emoji, title
         );
-        format!(
-            "git commit -m \"{}\" -m \"{}\"",
-            format!("{} {}", emoji, title),
-            desc
-        )
+        format!("git commit -m \"{} {}\" -m \"{}\"", emoji, title, desc)
     } else {
         debug!("Creating commit with emoji: {} and title: {}", emoji, title);
-        format!("git commit -m \"{}\"", format!("{} {}", emoji, title))
+        format!("git commit -m \"{} {}\"", emoji, title)
     };
 
     debug!("Executing command: {}", commit_cmd);
