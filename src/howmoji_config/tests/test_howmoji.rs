@@ -39,7 +39,7 @@ mod tests {
             .expect("Failed to prepare statement");
 
         let howmoji = stmt
-            .query_row([], |row| Howmoji::from_row(row))
+            .query_row([], Howmoji::from_row)
             .expect("Failed to query row");
 
         assert_eq!(howmoji.id, 1);
