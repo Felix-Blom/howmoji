@@ -54,7 +54,6 @@ pub fn run() {
 
     let db_path = data_dir.join("howmoji.db");
     let config = Config::new(db_path.to_string_lossy().into());
-    debug!("Config loaded with JSON path: {}", config.json_path);
 
     let db = Database::new(&config);
     if !db_path.exists() || db.requires_update() {

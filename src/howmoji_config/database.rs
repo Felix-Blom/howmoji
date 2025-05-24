@@ -1,9 +1,8 @@
-use super::*;
+use crate::howmoji_config::config;
+use crate::howmoji_config::howmoji::Howmoji;
 use config::Config;
-use howmoji::Howmoji;
 use log::debug;
 use rusqlite::{Connection, Result};
-use std::fs::File;
 use std::path::Path;
 
 pub struct Database<'config> {
@@ -87,17 +86,16 @@ impl<'config> Database<'config> {
     }
 
     fn insert_emojis_from_json(&self) -> Result<()> {
-        debug!("Inserting emojis from JSON into the database.");
+        debug!("Inserting emojis from embedded JSON into the database.");
 
-        // Convert std::io::Error to rusqlite::Error
-        let file = File::open(&self.config.json_path).map_err(|e| {
-            rusqlite::Error::InvalidParameterName(format!("Failed to open JSON file: {}", e))
-        })?;
-
-        // Convert serde_json::Error to rusqlite::Error
-        let json: serde_json::Value = serde_json::from_reader(file).map_err(|e| {
-            rusqlite::Error::InvalidParameterName(format!("Failed to parse JSON: {}", e))
-        })?;
+        // Parse the embedded JSON data instead of reading from file
+        let json: serde_json::Value =
+            serde_json::from_str(self.config.emoji_data).map_err(|e| {
+                rusqlite::Error::InvalidParameterName(format!(
+                    "Failed to parse embedded JSON: {}",
+                    e
+                ))
+            })?;
 
         let emoji_list = json["gitmojis"].as_array().ok_or_else(|| {
             rusqlite::Error::InvalidParameterName("Expected an array of gitmojis".to_string())

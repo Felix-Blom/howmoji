@@ -1,6 +1,6 @@
 use rusqlite::{Connection, Result};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Howmoji {
     pub id: i32,
     pub emoji: String,
@@ -50,5 +50,11 @@ impl Howmoji {
         )
         .expect("Failed to insert howmoji into database");
         Ok(())
+    }
+
+    // Test functions for private methods
+    #[cfg(test)]
+    pub fn test_exist_in_db(&self, conn: &Connection) -> Result<bool> {
+        self.exist_in_db(conn)
     }
 }
