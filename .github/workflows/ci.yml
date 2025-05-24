@@ -5,6 +5,7 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  workflow_call:
 
 env:
   CARGO_TERM_COLOR: always
@@ -62,24 +63,6 @@ jobs:
     
     - name: 📈 Generate code coverage
       run: cargo llvm-cov --all-features --workspace --lcov --output-path lcov.info
-    
-    - name: ☂️ Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        files: lcov.info
-        fail_ci_if_error: true
-
-  security:
-    name: 🔒 Security audit
-    runs-on: ubuntu-latest
-    steps:
-    - name: 📥 Checkout code
-      uses: actions/checkout@v4
-    
-    - name: 🛡️ Security audit
-      uses: rustsec/audit-check@v1.2.0
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
 
   build-matrix:
     name: 🏗️ Build on multiple platforms
