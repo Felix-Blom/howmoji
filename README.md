@@ -13,10 +13,10 @@
 
 ## Setup
 ### Installation
-Since we are still in `alpha`. The only way to install is using cargo
+Since we are still in `alpha`. The only way to install is using bash.
 
 ```bash
-cargo install --path .
+curl -sSL https://raw.githubusercontent.com/Felix-Blom/howmoji/main/install.sh | bash
 ```
 
 ### Usage
