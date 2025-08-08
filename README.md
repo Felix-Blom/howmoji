@@ -19,13 +19,20 @@ Since we are still in `alpha`. The only way to install is using bash.
 curl -sSL https://raw.githubusercontent.com/Felix-Blom/howmoji/main/install.sh | bash
 ```
 
+**Note:** The installer now uses `~/.local/bin` by default (no admin required). Make sure this directory is in your PATH:
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+Add this line to your shell profile (`.bashrc`, `.zshrc`, etc.) to make it permanent.
+
 ## Usage
 To start `howmoji` in the cli use the following command:
 
 ```bash
 howmoji -c
 ```
-
 ## Contributing
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. We welcome contributions!
 

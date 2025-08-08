@@ -10,10 +10,16 @@ NC='\033[0m' # No Color
 
 # Repository info
 REPO="Felix-Blom/howmoji"
-INSTALL_DIR="/usr/local/bin"
+
+# Use user's local bin directory instead of system-wide
+INSTALL_DIR="$HOME/.local/bin"
 
 echo -e "${GREEN}🎉 Installing howmoji...${NC}"
 
+# Create the directory if it doesn't exist
+mkdir -p "$INSTALL_DIR"
+
+# ...existing code...
 # Detect OS and architecture
 OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
@@ -44,6 +50,7 @@ case $OS in
         ;;
 esac
 
+# ...existing code...
 # Get latest release info
 echo -e "${YELLOW}📡 Fetching latest release...${NC}"
 LATEST_RELEASE=$(curl -s "https://api.github.com/repos/$REPO/releases/latest" | grep -o '"tag_name": "[^"]*' | cut -d'"' -f4)
@@ -76,13 +83,9 @@ fi
 # Make executable
 chmod +x "$TEMP_FILE"
 
-# Check if we need sudo for installation
-if [[ -w "$INSTALL_DIR" ]]; then
-    mv "$TEMP_FILE" "$INSTALL_DIR/howmoji"
-else
-    echo -e "${YELLOW}🔐 Installing to $INSTALL_DIR (requires sudo)...${NC}"
-    sudo mv "$TEMP_FILE" "$INSTALL_DIR/howmoji"
-fi
+# Install without sudo (since we're using user directory)
+echo -e "${YELLOW}📦 Installing to $INSTALL_DIR...${NC}"
+mv "$TEMP_FILE" "$INSTALL_DIR/howmoji"
 
 # Verify installation
 if command -v howmoji >/dev/null 2>&1; then
@@ -91,6 +94,7 @@ if command -v howmoji >/dev/null 2>&1; then
     echo -e "${YELLOW}🚀 Run 'howmoji --help' to get started${NC}"
 else
     echo -e "${YELLOW}⚠️  Installation completed but 'howmoji' not found in PATH${NC}"
-    echo -e "${YELLOW}   Make sure $INSTALL_DIR is in your PATH${NC}"
+    echo -e "${YELLOW}   Add $INSTALL_DIR to your PATH by adding this to your shell profile:${NC}"
+    echo -e "${YELLOW}   export PATH=\"\$HOME/.local/bin:\$PATH\"${NC}"
     echo -e "${YELLOW}   Or run directly: $INSTALL_DIR/howmoji${NC}"
 fi
